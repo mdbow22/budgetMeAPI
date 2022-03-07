@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/mdbow22/budgetMeAPI/issues"
   },
-  "homepage": "https://github.com/mdbow22/budgetMeAPI#readme"
+  "homepage": "https://github.com/mdbow22/budgetMeAPI#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.0",
+    "fastify": "^3.27.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.17.0"
+  }
 }

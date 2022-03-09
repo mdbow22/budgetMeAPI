@@ -1,6 +1,4 @@
-const bcrypt = require('bcrypt');
 const { makeUser, loginUser, getUser } = require('../controllers/userControls');
-const { User } = require('../models');
 
 const createOpts = {
     required: ['username','email','password'],
@@ -15,9 +13,18 @@ const createOpts = {
 
 const userRoutes = (fastify, options, done) => {
     fastify.post(`/create`, createOpts, async (req, reply) => {
-        const newUser = await makeUser(req.body);
+        try {
+            const newUser = await makeUser(req.body);
 
-        return newUser;
+        //sign token so user can be logged in after the create an account
+        const token = fastify.jwt.sign({username: req.body.username, email: req.body.email, id: newUser.id});
+
+        reply.status(201).send({token, newUser});
+        
+        } catch (err) {
+            reply.status(400).send(err);
+        }
+        
     })
 
     fastify.post('/login', async (req, reply) => {
@@ -25,6 +32,7 @@ const userRoutes = (fastify, options, done) => {
 
             const foundUser = await loginUser(req.body);
 
+            //sign token
             const token = fastify.jwt.sign({username: foundUser.username, email: foundUser.email, id: foundUser.id})
 
             reply.status(200).send({token, foundUser});

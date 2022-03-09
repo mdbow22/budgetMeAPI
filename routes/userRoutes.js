@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { makeUser, getUser } = require('../controllers/userControls');
+const { makeUser, loginUser, getUser } = require('../controllers/userControls');
 const { User } = require('../models');
 
 const createOpts = {
@@ -23,39 +23,14 @@ const userRoutes = (fastify, options, done) => {
     fastify.post('/login', async (req, reply) => {
         try {
 
-            console.log(req.body);
-            const {username, password } = req.body;
+            const foundUser = await loginUser(req.body);
 
-            if(!username || !password) {
-                reply.status(400).send({error: true, msg: 'did not fill out login correctly'});
-            }
+            const token = fastify.jwt.sign({username: foundUser.username, email: foundUser.email, id: foundUser.id})
 
-            const findUser = await User.findOne({
-                where: {
-                    username: username
-                }
-            });
-
-            console.log(findUser.password);
-
-            if(!findUser) {
-                throw new Error('Invalid username/password');
-            }
-
-            const pwMatch = await bcrypt.compare(password, findUser.password);
-
-            console.log(pwMatch);
-
-            if(!pwMatch) {
-                throw new Error('Invalid username/password');
-            }
-
-            const token = fastify.jwt.sign({username, email: findUser.email, id: findUser.id})
-
-            reply.status(200).send({token, findUser});
+            reply.status(200).send({token, foundUser});
 
         } catch (err) {
-            throw new Error(err);
+            reply.status(400).send(err);
         }
     });
 

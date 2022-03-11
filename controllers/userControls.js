@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 //create a new user
 const makeUser = async (user) => {
-    try {
+
         const newUser = await User.create({
             username: user.username,
             password: user.password,
@@ -11,9 +11,6 @@ const makeUser = async (user) => {
         });
 
         return newUser;
-    } catch (err) {
-        return err;
-    }
 };
 
 //login a yser

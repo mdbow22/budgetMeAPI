@@ -1,5 +1,7 @@
 const fp = require('fastify-plugin');
 
+
+
 const auth = fp(async (fastify, opts) => {
 
     //set-up JWT for use within backend
@@ -13,9 +15,14 @@ const auth = fp(async (fastify, opts) => {
         try {
             await req.jwtVerify();
         } catch (err) {
+            console.log(err);
             reply.send(err);
         }
     })
+
+    fastify.decorate('authOpts', {
+        preValidation: [fastify.userAuth],
+    }, ['userAuth']);
 })
 
 module.exports = auth;

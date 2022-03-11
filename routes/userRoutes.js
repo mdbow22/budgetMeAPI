@@ -22,18 +22,26 @@ const userRoutes = (fastify, options, done) => {
         reply.status(201).send({token, newUser});
         
         } catch (err) {
-            reply.status(400).send(err);
+            const errors = err.map(error => {
+                return {
+                    message: error.message,
+                    type: error.type,
+                    path: error.path,
+                }
+            })
+            reply.status(400).send(errors);
         }
         
     })
 
     fastify.post('/login', async (req, reply) => {
         try {
-
             const foundUser = await loginUser(req.body);
 
             //sign token
-            const token = fastify.jwt.sign({username: foundUser.username, email: foundUser.email, id: foundUser.id})
+            if(foundUser) {
+                const token = fastify.jwt.sign({username: foundUser.username, email: foundUser.email, id: foundUser.id})
+            }
 
             reply.status(200).send({token, foundUser});
 

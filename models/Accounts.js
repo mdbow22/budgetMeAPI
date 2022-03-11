@@ -13,7 +13,14 @@ const Account = sequelize.define('Accounts', {
         allowNull: false,
     },
     type: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM,
+        values: [
+            'checking',
+            'savings',
+            'moneyMarket',
+            'credit',
+            'cd',
+            'investment'],
         allowNull: false,
     },
     balance: {

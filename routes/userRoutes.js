@@ -39,8 +39,9 @@ const userRoutes = (fastify, options, done) => {
             const foundUser = await loginUser(req.body);
 
             //sign token
+            let token;
             if(foundUser) {
-                const token = fastify.jwt.sign({username: foundUser.username, email: foundUser.email, id: foundUser.id})
+                token = fastify.jwt.sign({username: foundUser.username, email: foundUser.email, id: foundUser.id})
             }
 
             reply.status(200).send({token, foundUser});

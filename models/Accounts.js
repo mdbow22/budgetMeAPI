@@ -26,6 +26,9 @@ const Account = sequelize.define('Accounts', {
     balance: {
         type: DataTypes.DECIMAL(19,3),
     },
+    starting_balance: {
+        type: DataTypes.DECIMAL(19,3),
+    },
     user_id: {
         type: INTEGER,
         references: {

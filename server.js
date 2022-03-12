@@ -1,7 +1,15 @@
 require('dotenv').config();
-const fastify = require('fastify')({ logger: true });
+const fastify = require('fastify')({ 
+    logger: {
+        level: 'info',
+        prettyPrint:
+                {
+                    translateTime: 'HH:MM:ss Z',
+                    colorize: true,
+                }
+        }  
+    });
 const sequelize = require('./config/connection');
-const auth = require('./utils/auth');
 const model = require('./models');
 
 const PORT = process.env.PORT || 3000;

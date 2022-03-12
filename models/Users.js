@@ -1,6 +1,7 @@
 const sequelize = require('../config/connection');
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
+const { use } = require('bcrypt/promises');
 
 const User = sequelize.define('Users', {
     id: {
@@ -41,6 +42,8 @@ User.beforeUpdate(async (user) => {
     if(user.password) {
         user.password = await bcrypt.hash(user.password, 13);
     }
+
+    return user;
 });
 
 module.exports = User;

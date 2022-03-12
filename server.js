@@ -1,14 +1,14 @@
 require('dotenv').config();
-const fastify = require('fastify')({ logger: false });
+const fastify = require('fastify')({ logger: true });
 const sequelize = require('./config/connection');
 const auth = require('./utils/auth');
 const model = require('./models');
 
 const PORT = process.env.PORT || 3000;
 
-fastify.register(auth);
-fastify.register(require('./routes/userRoutes'), {prefix: '/api/user'})
-fastify.register(require('./routes/accountRoutes'), {prefix: '/api/accounts'})
+fastify.register(require('./routes'), {prefix: '/api'});
+// fastify.register(require('./routes/accountRoutes'), {prefix: '/api/accounts'})
+// fastify.register(require('./routes/transactionRoutes', {prefix: '/api/transaction'}));
 
 const start = async () => {
     try {

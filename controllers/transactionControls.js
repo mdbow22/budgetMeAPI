@@ -22,7 +22,7 @@ const postTransaction = async (account, transaction) => {
     const newTransaction = await Transaction.create({
         category: transaction.category,
         description: transaction.description,
-        amount: transaction.type === 'credit' ? transaction.amount : transaction.amount * -1,
+        amount: transaction.amount,
         date: transaction.date,
         account_id: account,
     });
@@ -49,4 +49,30 @@ const destroyTransaction = async (user, id) => {
 
 }
 
-module.exports = { getAllTransactions, postTransaction, destroyTransaction };
+const changeTransaction = async (user, id, transaction) => {
+    const transToUpdate = await Transaction.findByPk(id, {
+        include: {
+            model: Account,
+            attributes: ['id','name','user_id'],
+        }
+    });
+
+    if(!transToUpdate) {
+        throw new Error('Transaction does not exist');
+    }
+
+    if(transToUpdate.Account.user_id !== user.id) {
+        throw new Error('Unauthorized Request');
+    }
+
+    transToUpdate.update({
+        category: transaction.category,
+        description: transaction.description,
+        amount: transaction.amount,
+        date: transaction.date,
+    });
+
+    return transToUpdate;
+}
+
+module.exports = { getAllTransactions, postTransaction, destroyTransaction, changeTransaction };

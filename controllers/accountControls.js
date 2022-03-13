@@ -6,6 +6,7 @@ const makeNewAccount = async (request) => {
 
     const query = {
         ...body,
+        starting_balance: body.balance ?? null,
         user_id: user.id
     }
 

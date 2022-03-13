@@ -49,8 +49,19 @@ Transaction.afterDestroy(async (transaction) => {
 Transaction.afterUpdate(async (transaction) => {
     //placeholder: use this function to update the balance of an account
     //when a transaction is changed
-    console.log(transaction);
     //Only needs to run if amount or credit/debit is altered.
+    let updateBalance;
+    if(transaction.amount !== transaction._previousDataValues.amount) {
+        const delta = transaction._previousDataValues.amount - transaction.amount;
+        updateBalance = await Account.decrement('balance', {
+            by: delta,
+            where: {
+                id: transaction.account_id,
+            }
+        });
+    }
+
+    return updateBalance;
 })
 
 module.exports = { User, Account, Transaction };

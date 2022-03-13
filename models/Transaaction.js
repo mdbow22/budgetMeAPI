@@ -1,5 +1,6 @@
 const sequelize = require('../config/connection');
 const { DataTypes } = require('sequelize');
+const { Account } = require('../models');
 
 const Transaction = sequelize.define('Transactions', {
     id: {
@@ -31,10 +32,7 @@ const Transaction = sequelize.define('Transactions', {
     sequelize
 });
 
-Transaction.afterCreate(async (transaction) => {
-    //placeholder: use this function to update the balance of an account
-    //when a transaction is added.
-});
+
 
 Transaction.afterDestroy(async (transaction) => {
     //placeholder: use this function to update the balance of an account

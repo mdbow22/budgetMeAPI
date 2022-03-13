@@ -18,4 +18,16 @@ const getAllTransactions = async (user) => {
     return allTransactions;
 }
 
-module.exports = { getAllTransactions };
+const postTransaction = async (account, transaction) => {
+    const newTransaction = await Transaction.create({
+        category: transaction.category,
+        description: transaction.description,
+        amount: transaction.type === 'credit' ? transaction.amount : transaction.amount * -1,
+        date: transaction.date,
+        account_id: account,
+    });
+
+    return newTransaction;
+}
+
+module.exports = { getAllTransactions, postTransaction };

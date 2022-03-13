@@ -1,4 +1,4 @@
-const { getAllTransactions } = require("../controllers/transactionControls");
+const { getAllTransactions, postTransaction } = require("../controllers/transactionControls");
 
 const transactionRoutes = (fastify, options, done) => {
 
@@ -13,6 +13,18 @@ const transactionRoutes = (fastify, options, done) => {
     })
 
     done();
+
+
+    fastify.post('/newTransaction', async (req, reply) => {
+        try {
+            const newTransaction = await postTransaction(req.body.account, req.body.transaction);
+
+            reply.status(201).send(newTransaction);
+        } catch (err) {
+            reply.status(400).send(err);
+        }
+        
+    })
 };
 
 module.exports = transactionRoutes;

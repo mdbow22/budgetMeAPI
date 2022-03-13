@@ -1,4 +1,5 @@
-const { getAllTransactions, postTransaction } = require("../controllers/transactionControls");
+const { getAllTransactions, postTransaction, destroyTransaction } = require("../controllers/transactionControls");
+const { Transaction } = require("../models");
 
 const transactionRoutes = (fastify, options, done) => {
 
@@ -15,7 +16,7 @@ const transactionRoutes = (fastify, options, done) => {
     done();
 
 
-    fastify.post('/newTransaction', async (req, reply) => {
+    fastify.post('/newTransaction', authOpts, async (req, reply) => {
         try {
             const newTransaction = await postTransaction(req.body.account, req.body.transaction);
 
@@ -24,6 +25,21 @@ const transactionRoutes = (fastify, options, done) => {
             reply.status(400).send(err);
         }
         
+    })
+
+    fastify.delete('/deleteTransaction/:id', authOpts, async(req, reply) => {
+        try {
+            const destroyed = await destroyTransaction(req.user, req.params.id)
+            console.log(rowsDestroyed);
+            reply.status(200).send(destroyed);
+        } catch (err) {
+            if(err.message === 'Unauthoized Request') {
+                reply.status(401).send(err);
+            } else {
+                reply.status(400).send(err);
+            }
+            
+        }
     })
 };
 

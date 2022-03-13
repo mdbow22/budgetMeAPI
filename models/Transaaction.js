@@ -32,18 +32,4 @@ const Transaction = sequelize.define('Transactions', {
     sequelize
 });
 
-
-
-Transaction.afterDestroy(async (transaction) => {
-    //placeholder: use this function to update the balance of an account
-    //when a transaction is removed.
-});
-
-Transaction.afterUpdate(async (transaction) => {
-    //placeholder: use this function to update the balance of an account
-    //when a transaction is changed
-
-    //Only needs to run if amount or credit/debit is altered.
-})
-
 module.exports = Transaction;

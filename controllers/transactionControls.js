@@ -30,4 +30,23 @@ const postTransaction = async (account, transaction) => {
     return newTransaction;
 }
 
-module.exports = { getAllTransactions, postTransaction };
+const destroyTransaction = async (user, id) => {
+    const transToDestroy = await Transaction.findByPk(id, {
+        include: Account,
+    });
+    console.log('Transaction to Destroy: ', transToDestroy);
+    if(!transToDestroy) {
+        throw new Error('Transaction does not exist');
+    }
+
+    if(transToDestroy.Account.user_id !== user.id) {
+        throw new Error('Unauthoized Request');
+    }
+
+    const destroyedTransaction = await transToDestroy.destroy();
+
+    return destroyedTransaction;
+
+}
+
+module.exports = { getAllTransactions, postTransaction, destroyTransaction };

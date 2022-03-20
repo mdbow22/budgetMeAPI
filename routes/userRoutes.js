@@ -40,11 +40,17 @@ const userRoutes = (fastify, options, done) => {
 
             //sign token
             let token;
+            let signedUser;
             if(foundUser) {
                 token = fastify.jwt.sign({username: foundUser.username, email: foundUser.email, id: foundUser.id})
+                signedUser = {
+                    id: foundUser.id,
+                    email: foundUser.email,
+                    username: foundUser.username,
+                }
             }
 
-            reply.status(200).send({token, foundUser});
+            reply.status(200).send({token, signedUser});
 
         } catch (err) {
             reply.status(400).send(err);

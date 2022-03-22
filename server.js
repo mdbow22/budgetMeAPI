@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const fastify = require('fastify')({ 
     logger: {
         level: 'info',
@@ -10,9 +11,19 @@ const fastify = require('fastify')({
         }  
     });
 const sequelize = require('./config/connection');
-const model = require('./models');
 
 const PORT = process.env.PORT || 3000;
+
+if(process.env.NODE_ENV === 'production') {
+    fastify.register(require('fastify-static'), {
+        root: path.join(__dirname, 'dist'),
+    });
+
+    fastify.get('/', async (req, reply) => {
+        reply.sendFile('index.html');
+    })
+}
+
 
 fastify.register(require('./routes'), {prefix: '/api'});
 // fastify.register(require('./routes/accountRoutes'), {prefix: '/api/accounts'})

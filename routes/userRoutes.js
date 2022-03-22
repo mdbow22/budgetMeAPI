@@ -16,20 +16,19 @@ const userRoutes = (fastify, options, done) => {
         try {
             const newUser = await makeUser(req.body);
 
-        //sign token so user can be logged in after the create an account
-        const token = fastify.jwt.sign({username: req.body.username, email: req.body.email, id: newUser.id});
+            //sign token so user can be logged in after the create an account
+            const token = fastify.jwt.sign({username: req.body.username, email: req.body.email, id: newUser.id});
+            const userInfo = {
+                id: newUser.id,
+                email: newUser.email,
+                username: newUser.username,
+            }
 
-        reply.status(201).send({token, newUser});
+            reply.status(201).send({token, userInfo});
         
         } catch (err) {
-            const errors = err.map(error => {
-                return {
-                    message: error.message,
-                    type: error.type,
-                    path: error.path,
-                }
-            })
-            reply.status(400).send(errors);
+            console.log(err);
+            reply.status(400).send(err);
         }
         
     })

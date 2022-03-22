@@ -1,16 +1,36 @@
 const { User } = require("../models");
 const bcrypt = require('bcrypt');
 
+const ErrorObject = (type, path) => {
+    this.type = type;
+    this.path = path;
+}
+
 //create a new user
 const makeUser = async (user) => {
 
-        const newUser = await User.create({
-            username: user.username,
-            password: user.password,
-            email: user.email,
-        });
+        try {
+            const newUser = await User.create({
+                username: user.username,
+                password: user.password,
+                email: user.email,
+            });
+    
+            return newUser;
+        } catch (err) {
+            const errors = err.errors.map(err => {
+                
+                return ({
+                type: err.type,
+                path: err.path,
+                })
+            });
 
-        return newUser;
+            console.log('**********');
+            console.log(err.errors);
+
+            throw errors;
+        }
 };
 
 //login a yser

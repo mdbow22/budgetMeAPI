@@ -13,7 +13,7 @@ const transactionRoutes = (fastify, options, done) => {
         reply.status(200).send(allTransactions);
     })
 
-    done();
+    
 
 
     fastify.post('/newTransaction', authOpts, async (req, reply) => {
@@ -55,6 +55,8 @@ const transactionRoutes = (fastify, options, done) => {
             }
         }
     })
+
+    done();
 };
 
 module.exports = transactionRoutes;

@@ -1,6 +1,20 @@
 const { Op } = require('sequelize');
 const { Account } = require("../models");
 
+const retrieveAccounts = async (userId) => {
+    const userAccounts = await Account.findAll({
+        where: {
+            user_id: userId,
+        }
+    });
+
+    if(!userAccounts) {
+        throw 'Unable to locate any accounts';
+    }
+
+    return userAccounts;
+}
+
 const makeNewAccount = async (request) => {
     const { user, body } = request;
 
@@ -77,4 +91,4 @@ const removeAccount = async (request) => {
     return destroyed; 
 }
 
-module.exports = { makeNewAccount, changeAccountInfo, removeAccount };
+module.exports = { retrieveAccounts, makeNewAccount, changeAccountInfo, removeAccount };

@@ -54,7 +54,7 @@ const loginUser = async (user) => {
     const pwMatch = await bcrypt.compare(password, findUser.password);
 
     if(!pwMatch) {
-        throw new Error('invalid email/password');
+        throw new Error('invalid username/password');
     }
 
     return findUser;

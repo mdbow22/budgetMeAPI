@@ -1,4 +1,7 @@
-const { makeNewAccount, changeAccountInfo, removeAccount } = require('../controllers/accountControls');
+const { retrieveAccounts, 
+    makeNewAccount, 
+    changeAccountInfo, 
+    removeAccount } = require('../controllers/accountControls');
 
 const newActOpts = {
     schema: {
@@ -29,6 +32,17 @@ const accountRoutes = (fastify, options, done) => {
     const authOpts = {
         preValidation: [fastify.userAuth],
     }
+
+    fastify.get('/', authOpts, async (req, reply) => {
+        try {
+            const accountInfo = await retrieveAccounts(req.user.id);
+
+            reply.status(200).send(accountInfo);
+        } catch (err) {
+            reply.status(400).send(err);
+        }
+        
+    });
 
     fastify.post('/create', {
         ...newActOpts,

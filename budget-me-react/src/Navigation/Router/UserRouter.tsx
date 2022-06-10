@@ -6,7 +6,7 @@ import SideNav from '../SideNav';
 const UserRouter: React.FC = () => {
 
   return (
-    <div className='main-box relative'>
+    <div className='main-box'>
         <SideNav />
         <Private>
             <div className='pl-12'>

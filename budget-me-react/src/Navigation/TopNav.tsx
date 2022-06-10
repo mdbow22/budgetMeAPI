@@ -8,10 +8,10 @@ const TopNav: React.FC = () => {
     const { isAuthed, user } = useUser();
 
   return (
-    <nav className='text-green-700 flex justify-between py-3 px-5 bg-gradient-to-bl from-green-50 shadow-lg h-16'>
-        <div className='pr-5 flex items-center'>
+    <nav className='text-green-700 flex justify-between py-3 pr-5 pl-12 bg-gradient-to-bl from-green-50 shadow-lg h-16'>
+        <div className='flex items-center'>
             <Link to={isAuthed ? `/user/${user?.id}/dashboard` : '/'}>
-                <h1 className='text-4xl pr-5 text-center font-bold'>BudgetMe</h1>
+                <h1 className='text-4xl text-center font-bold'>BudgetMe</h1>
             </Link>
         </div>
         <LoginPopup />

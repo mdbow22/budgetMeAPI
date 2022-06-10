@@ -26,35 +26,36 @@ const LoginPopup: React.FC = () => {
             </svg>
         </button>
     </div>
-    <div className={showMenu ? 'login-popup' : 'login-popup hidden'}>
-        <ul>
-            {isAuthed &&
-                <Link to='/' 
-                    onClick={() => {
-                        logoutUser();
-                        }}>
-                    <li className='px-4 py-2 border-b-2 hover:bg-green-50'>
-                        Logout
-                    </li>
-                </Link>
-            }
-            {!isAuthed &&
-                <>
-                <Link to='/login' onClick={() => setShowMenu(false)}>
-                    <li className='px-4 py-2 border-b-2 hover:bg-green-50'>
-                        Login
-                    </li>
-                </Link>
-                <Link to='/signup' onClick={() => setShowMenu(false)}> 
-                    <li className='px-4 py-2 hover:bg-green-50'>
-                        Sign Up
-                    </li>
-                </Link>
-                </>
-            }
-            
-        </ul>
-    </div>
+    {showMenu &&
+        <div className='login-popup z-50'>
+            <ul>
+                {isAuthed &&
+                    <Link to='/' 
+                        onClick={() => {
+                            logoutUser();
+                            }}>
+                        <li className='px-4 py-2 border-b-2 hover:bg-green-50'>
+                            Logout
+                        </li>
+                    </Link>
+                }
+                {!isAuthed &&
+                    <>
+                    <Link to='/login' onClick={() => setShowMenu(false)}>
+                        <li className='px-4 py-2 border-b-2 hover:bg-green-50'>
+                            Login
+                        </li>
+                    </Link>
+                    <Link to='/signup' onClick={() => setShowMenu(false)}> 
+                        <li className='px-4 py-2 hover:bg-green-50'>
+                            Sign Up
+                        </li>
+                    </Link>
+                    </>
+                }
+            </ul>
+        </div>
+    }
     </>
   )
 }

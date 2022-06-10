@@ -1,15 +1,19 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom';
 import Private from '../../services/Private';
+import SideNav from '../SideNav';
 
 const UserRouter: React.FC = () => {
+
   return (
-    <>
-        <div>HELLO!</div>
+    <div className='main-box relative'>
+        <SideNav />
         <Private>
-            <Outlet />
+            <div className='pl-12'>
+                <Outlet />
+            </div>
         </Private>
-    </>
+    </div>
   )
 }
 

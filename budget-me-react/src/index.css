@@ -10,6 +10,10 @@
     @apply absolute right-2 bg-white border shadow-md w-28;
     top: 4.5rem;
   }
+
+  .new-btn {
+    @apply bg-white/25 text-white py-1 px-2 text-sm shadow active:shadow-inner hover:bg-white/75 hover:text-green-700
+  }
 }
 
 :root {
@@ -17,11 +21,33 @@
   --heading-font: 'Piazzolla';
 }
 
-body {
+html, body {
   font-family: var(--primary-font), 'Roboto', sans-serif;
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
 }
 
 h1, h2, h3, h4, h5 {
   font-family: var(--heading-font), serif;
   font-weight: 700;
+}
+
+.main-box {
+  min-height: calc(100vh - 4rem);
+}
+
+.sidebar {
+  height: 100%;
+  transform: translateX(-8rem);
+  z-index: 999;
+  transition: all 250ms ease-in-out;
+}
+
+.sidebar-open {
+  height: 100%;
+  transform: translateX(0rem);
+  transition: all 250ms ease-in-out;
 }

@@ -1,9 +1,20 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useUser } from '../services/UserContext';
+import { removeToken } from '../utils/Auth';
 
 const LoginPopup: React.FC = () => {
 
+    const { isAuthed, setIsAuthed, setUser } = useUser();
+
     const [showMenu, setShowMenu] = useState(false);
+
+    const logoutUser = () => {
+        setIsAuthed(false);
+        setUser(undefined);
+        removeToken();
+        setShowMenu(false);
+    }
 
   return (
     <>
@@ -17,16 +28,31 @@ const LoginPopup: React.FC = () => {
     </div>
     <div className={showMenu ? 'login-popup' : 'login-popup hidden'}>
         <ul>
-            <Link to='/login' onClick={() => setShowMenu(false)}>
-                <li className='px-4 py-2 border-b-2 hover:bg-green-50'>
-                    Login
-                </li>
-            </Link>
-            <Link to='/signup' onClick={() => setShowMenu(false)}> 
-                <li className='px-4 py-2 hover:bg-green-50'>
-                    Sign Up
-                </li>
-            </Link>
+            {isAuthed &&
+                <Link to='/' 
+                    onClick={() => {
+                        logoutUser();
+                        }}>
+                    <li className='px-4 py-2 border-b-2 hover:bg-green-50'>
+                        Logout
+                    </li>
+                </Link>
+            }
+            {!isAuthed &&
+                <>
+                <Link to='/login' onClick={() => setShowMenu(false)}>
+                    <li className='px-4 py-2 border-b-2 hover:bg-green-50'>
+                        Login
+                    </li>
+                </Link>
+                <Link to='/signup' onClick={() => setShowMenu(false)}> 
+                    <li className='px-4 py-2 hover:bg-green-50'>
+                        Sign Up
+                    </li>
+                </Link>
+                </>
+            }
+            
         </ul>
     </div>
     </>

@@ -11,7 +11,7 @@ const UserRouter: React.FC = () => {
         <AccountProvider>
         <SideNav />
         <Private>
-            <div className='pl-14'>
+            <div className='pl-14 pr-6 pt-4'>
                 <Outlet />
             </div>
         </Private>

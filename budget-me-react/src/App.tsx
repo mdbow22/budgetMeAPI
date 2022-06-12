@@ -18,6 +18,9 @@ const App: React.FC = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/user/:id' element={<UserRouter />}>
           <Route path='dashboard' element={<Dashboard />} />
+          <Route path='accounts' />
+          <Route path='budgets' />
+          <Route path='goals' />
         </Route>
         <Route path='*' />
       </Routes>

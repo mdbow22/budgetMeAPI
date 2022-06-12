@@ -1,17 +1,30 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useCallback, useContext, useState } from 'react'
 import API from '../utils/API';
 import { getToken } from '../utils/Auth';
 
+interface UserAccounts {
+    id: number,
+    name: string,
+    type: string,
+    balance: string,
+    starting_balance: string,
+    user_id: number,
+    createdAt: string,
+    updatedAt: string,
+}
+
 interface AcctContextType {
-    userAccounts: undefined,
+    userAccounts: UserAccounts[],
     fillAccounts: () => Promise<any>;
 }
+
+
 
 const AccountContext = createContext<AcctContextType | null>(null);
 
 const AccountProvider:React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const [userAccounts, setUserAccounts] = useState<any>();
+    const [userAccounts, setUserAccounts] = useState<UserAccounts[]>([]);
 
     const getAccountInfo = async () => {
 
@@ -22,7 +35,7 @@ const AccountProvider:React.FC<{ children: React.ReactNode }> = ({ children }) =
             }
     }
 
-    const fillAccounts = async () => {
+    const fillAccounts = useCallback(async () => {
         const accountInfo = await getAccountInfo();
 
         if(accountInfo) {
@@ -30,8 +43,8 @@ const AccountProvider:React.FC<{ children: React.ReactNode }> = ({ children }) =
             return;
         }
 
-        setUserAccounts(null);
-    }
+        setUserAccounts([]);
+    }, []);
 
     const Accounts = {
         userAccounts,

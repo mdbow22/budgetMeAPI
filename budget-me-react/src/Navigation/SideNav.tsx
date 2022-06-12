@@ -17,7 +17,7 @@ const SideNav: React.FC = () => {
 
         initializeAccounts();
 
-    }, [user?.id])
+    }, [user?.id, fillAccounts])
 
     const [showMenu, setShowMenu] = useState(false);
 

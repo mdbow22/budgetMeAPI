@@ -1,5 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom';
+import AccountProvider from '../../services/AccountContext';
 import Private from '../../services/Private';
 import SideNav from '../SideNav';
 
@@ -7,12 +8,14 @@ const UserRouter: React.FC = () => {
 
   return (
     <div className='main-box'>
+        <AccountProvider>
         <SideNav />
         <Private>
-            <div className='pl-12'>
+            <div className='pl-14'>
                 <Outlet />
             </div>
         </Private>
+        </AccountProvider>
     </div>
   )
 }

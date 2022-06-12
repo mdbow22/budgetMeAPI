@@ -11,7 +11,7 @@ const retrieveAccounts = async (userId) => {
     if(!userAccounts) {
         throw 'Unable to locate any accounts';
     }
-
+    
     return userAccounts;
 }
 

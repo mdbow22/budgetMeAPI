@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useContext, useState } from 'react'
 import API from '../utils/API';
 import { getToken } from '../utils/Auth';
 
-interface UserAccounts {
+export interface UserAccounts {
     id: number,
     name: string,
     type: string,

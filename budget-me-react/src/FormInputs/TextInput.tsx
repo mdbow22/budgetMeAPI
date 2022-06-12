@@ -15,7 +15,7 @@ const TextInput: React.FC<TextInputProps> = ({name, labelText, type, required, v
     const formType = type ?? 'text';
 
     return (
-        <div className='flex flex-col mb-3'>
+        <div className='flex flex-col mb-3 w-full'>
             <label className='mb-2 font-semibold' htmlFor={name}>{labelText}</label>
             <input 
                 className='border py-1 px-2 shadow'

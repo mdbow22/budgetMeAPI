@@ -22,7 +22,7 @@ const SideNav: React.FC = () => {
     const [showMenu, setShowMenu] = useState(false);
 
   return (
-        <div className={`absolute top-0 bg-green-700 max-w-xs text-white ${showMenu ? 'sidebar-open' : 'sidebar'}`}>
+        <div className={`absolute top-0 bg-green-700 max-w-xs text-white z-50 ${showMenu ? 'sidebar-open' : 'sidebar'}`}>
             <ul className='flex flex-col gap-2 items-center'>
                     <li className='border-b border-white w-full flex items-center justify-between pr-2 py-2 relative z-50'>
                         <div> </div>

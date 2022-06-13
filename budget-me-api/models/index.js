@@ -1,8 +1,21 @@
 const User = require('./Users');
 const Account = require('./Accounts');
+const Category = require('./Categories');
 const Transaction = require('./Transaaction');
 
 User.hasMany(Account, {
+    foreignKey: 'user_id',
+});
+
+User.hasMany(Category, {
+    foreignKey: 'user_id',
+})
+
+Category.hasMany(Transaction, {
+    foreignKey: 'category_id',
+})
+
+Category.belongsTo(User, {
     foreignKey: 'user_id',
 });
 
@@ -17,6 +30,10 @@ Account.hasMany(Transaction, {
 Transaction.belongsTo(Account, {
     foreignKey: 'account_id',
 });
+
+Transaction.belongsTo(Category, {
+    foreignKey: 'category_id',
+})
 
 //Hooks to update an account's balance when user messes with transactions
 
@@ -64,4 +81,4 @@ Transaction.afterUpdate(async (transaction) => {
     return updateBalance;
 })
 
-module.exports = { User, Account, Transaction };
+module.exports = { User, Account, Category, Transaction };

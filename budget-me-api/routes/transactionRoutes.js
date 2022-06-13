@@ -1,5 +1,5 @@
-const { getAllTransactions, postTransaction, destroyTransaction, changeTransaction } = require("../controllers/transactionControls");
-const { Transaction } = require("../models");
+const { getAllTransactions, postTransaction, destroyTransaction, changeTransaction, getCategories } = require("../controllers/transactionControls");
+const { Category } = require('../models/Categories');
 
 const transactionRoutes = (fastify, options, done) => {
 
@@ -12,9 +12,6 @@ const transactionRoutes = (fastify, options, done) => {
 
         reply.status(200).send(allTransactions);
     })
-
-    
-
 
     fastify.post('/newTransaction', authOpts, async (req, reply) => {
         try {
@@ -53,6 +50,17 @@ const transactionRoutes = (fastify, options, done) => {
             } else {
                 reply.status(400).send(err);
             }
+        }
+    })
+
+    fastify.get('/categories', async(req, reply) => {
+        try {
+            const fetchedCategories = await getCategories();
+            if(fetchedCategories) {
+                reply.status(200).send(fetchedCategories);
+            }
+        } catch (err) {
+            console.log(err);
         }
     })
 

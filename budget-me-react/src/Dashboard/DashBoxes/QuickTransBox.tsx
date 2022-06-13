@@ -9,6 +9,7 @@ interface QuickTransType {
     amount: number | string;
     category: string;
     description: string;
+    date?: string;
 }
 
 interface ReducerAction {

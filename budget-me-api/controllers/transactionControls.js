@@ -1,5 +1,4 @@
-const { Transaction, Account } = require("../models")
-const accountRoutes = require("../routes/accountRoutes")
+const { Transaction, Account, Category } = require("../models")
 
 const getAllTransactions = async (user) => {
     const allTransactions = await Transaction.findAll({
@@ -75,4 +74,10 @@ const changeTransaction = async (user, id, transaction) => {
     return transToUpdate;
 }
 
-module.exports = { getAllTransactions, postTransaction, destroyTransaction, changeTransaction };
+const getCategories = async () => {
+    const allCategories = await Category.findAll();
+
+    return allCategories;
+}
+
+module.exports = { getAllTransactions, postTransaction, destroyTransaction, changeTransaction, getCategories };

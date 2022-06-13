@@ -1,6 +1,5 @@
 const sequelize = require('../config/connection');
 const { DataTypes } = require('sequelize');
-const { Account } = require('../models');
 
 const Transaction = sequelize.define('Transactions', {
     id: {
@@ -25,6 +24,13 @@ const Transaction = sequelize.define('Transactions', {
         type: DataTypes.INTEGER,
         references: {
             model: 'Accounts',
+            key: 'id',
+        }
+    },
+    category_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'Categories',
             key: 'id',
         }
     }

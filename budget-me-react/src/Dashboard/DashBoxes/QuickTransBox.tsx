@@ -7,17 +7,17 @@ import API from '../../utils/API';
 import { getToken } from '../../utils/Auth';
 
 interface QuickTransType {
-    account: string;
+    account: number | undefined;
     type: string;
     amount: number | string;
-    category: string;
+    category: any;
     description: string;
     date?: string;
 }
 
 interface ReducerAction {
     type: string;
-    payload: string | number;
+    payload: string;
 }
 
 const QuickTransBox: React.FC<{ userAccounts: UserAccounts[] }> = ({ userAccounts }) => {
@@ -25,7 +25,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[] }> = ({ userAccount
     const [categories, setCategories] = useState<any>();
     const [filteredCats, setFilteredCats] = useState<any>();
 
-    const options = [{value: '', label: ''}, ...userAccounts.map(account => ({value: account.name, label: account.name}))];
+    const options = [{value: '', label: ''}, ...userAccounts.map(account => ({value: account.id, label: account.name}))];
 
     useEffect(() => {
         const token = getToken();
@@ -33,7 +33,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[] }> = ({ userAccount
             API.get('/transaction/categories', token)
             .then((res: any) => {
                 const formatted = res.map((category: any) => ({
-                    value: {...category},
+                    value: { ...category },
                     label: category.category,
                 }));
 
@@ -43,35 +43,22 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[] }> = ({ userAccount
         
     }, [setCategories])
 
-    const cats = [
-        {
-            value: 'Home',
-            label: 'Home',
-        },
-        {
-            value: 'Health',
-            label: 'Health',
-        },
-        {
-            value: 'Restaurants',
-            label: 'Restaurants',
-        }
-    ]
-
     const initState: QuickTransType = {
-        account: '',
+        account: undefined,
         type: '',
         amount: '',
-        category: '',
+        category: undefined,
         description: '',
     }
 
     const reducer = (state: QuickTransType, action: ReducerAction) => {
         if(action.type) {
+            console.log(action.payload);
             const newState = {
                 ...state,
-                [action.type]: action.payload,
+                [action.type]: action.type === 'category' ? JSON.parse(action.payload) : action.payload,
             }
+            console.log(newState.category);
             return newState;
         } else {
             return state;
@@ -84,11 +71,13 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[] }> = ({ userAccount
         if(formState.type) {
             switch(formState.type) {
                 case 'credit': {
-                    setFilteredCats(categories.filter((category: any) => category.value.type === 'credit'));
+                    setFilteredCats(categories.filter((category: any) => category.value.type === 'credit')
+                        .map((category: any) => ({value: JSON.stringify(category.value), label: category.label})));
                     break;
                 }
                 case 'debit': {
-                    setFilteredCats(categories.filter((category: any) => category.value.type === 'debit'));
+                    setFilteredCats(categories.filter((category: any) => category.value.type === 'debit')
+                        .map((category: any) => ({value: JSON.stringify(category.value), label: category.label})));
                     break;
                 }
                 default: {
@@ -152,9 +141,10 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[] }> = ({ userAccount
                         labelText='Category'
                         options={filteredCats ?? undefined}
                         onChange={(e) => {
+                            console.log('e:', e);
                             dispatch({type: 'category', payload: e.target.value})
                         }}
-                        value={formState.category}
+                        value={formState.category?.category}
                         required
                     />
                 </div>

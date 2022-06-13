@@ -26,7 +26,7 @@ const FormSelect: React.FC<{
         value={value}
         required={required}
       >
-        {options.map((option) => {
+        {options?.map((option) => {
           return <option value={option.value}>{option.label}</option>;
         })}
       </select>

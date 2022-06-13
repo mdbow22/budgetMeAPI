@@ -5,6 +5,7 @@ import TextInput from '../../FormInputs/TextInput';
 import { UserAccounts } from '../../services/AccountContext';
 import API from '../../utils/API';
 import { getToken } from '../../utils/Auth';
+import useAccountContext from '../../services/AccountContext';
 
 interface QuickTransType {
     account: number | undefined;
@@ -20,7 +21,7 @@ interface ReducerAction {
     payload: string;
 }
 
-const QuickTransBox: React.FC<{ userAccounts: UserAccounts[] }> = ({ userAccounts }) => {
+const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () => Promise<any> }> = ({ userAccounts, fillAccounts }) => {
 
     const [categories, setCategories] = useState<any>();
     const [filteredCats, setFilteredCats] = useState<any>();
@@ -91,6 +92,25 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[] }> = ({ userAccount
 
     const submit = (e: FormEvent) => {
         e.preventDefault();
+
+        let transAmount = Number(formState.amount);
+
+        const body = {
+            account: formState.account,
+            transaction: {
+                category: formState.category.category,
+                category_id: formState.category.id,
+                description: formState.description,
+                amount: formState.type === 'debit' ? transAmount * -1 : transAmount,
+                date: new Date(),
+            }
+        }
+
+        API.post('/transaction/newTransaction', body, true)
+            .then((res: any) => {
+                console.log(res);
+                fillAccounts();
+            });
     }
 
   return (

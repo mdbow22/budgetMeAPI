@@ -20,6 +20,7 @@ const getAllTransactions = async (user) => {
 const postTransaction = async (account, transaction) => {
     const newTransaction = await Transaction.create({
         category: transaction.category,
+        category_id: transaction.category_id,
         description: transaction.description,
         amount: transaction.amount,
         date: transaction.date,

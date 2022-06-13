@@ -5,12 +5,12 @@ import QuickTransBox from './DashBoxes/QuickTransBox';
 
 const Dashboard: React.FC = () => {
 
-    const { userAccounts } = useAccountContext();
+    const { userAccounts, fillAccounts } = useAccountContext();
 
   return (
     <div className='relative flex md:flex-row flex-col items-stretch justify-between md:gap-6 gap-14 h-72'>
         <AccountBox userAccounts={userAccounts} />
-        <QuickTransBox userAccounts={userAccounts} />
+        <QuickTransBox userAccounts={userAccounts} fillAccounts={fillAccounts} />
     </div>
   )
 }

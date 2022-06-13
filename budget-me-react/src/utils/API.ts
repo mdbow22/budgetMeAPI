@@ -1,8 +1,18 @@
+import { getToken } from './Auth';
+
 const API = {
-    post: async function(path: string, body: object) {
+    post: async function(path: string, body: object, needsAuth?: boolean) {
+
+        let token;
+        if(needsAuth) {
+            token = getToken();
+        }
         const response = await fetch(`/api${path}`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: token ? `Bearer ${token}` : '',
+            },
             body: JSON.stringify(body),
         });
 

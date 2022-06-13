@@ -23,11 +23,10 @@ const FormSelect: React.FC<{
         id={name}
         className='border py-1 px-2 shadow'
         onChange={onChange}
-        value={value}
         required={required}
       >
         {options?.map((option) => {
-          return <option key={option.label} value={option.value}>{option.label}</option>;
+          return <option key={option.label} selected={option.label === value ? true : false} value={option.value}>{option.label}</option>;
         })}
       </select>
     </div>

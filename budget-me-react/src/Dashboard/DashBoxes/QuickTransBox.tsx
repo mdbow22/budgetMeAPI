@@ -98,7 +98,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[] }> = ({ userAccount
         } else {
             setFilteredCats(undefined);
         }
-    })
+    }, [categories, setFilteredCats, formState.type])
 
     const submit = (e: FormEvent) => {
         e.preventDefault();

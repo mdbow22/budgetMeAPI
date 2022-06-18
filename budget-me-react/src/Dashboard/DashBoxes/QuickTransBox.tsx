@@ -5,7 +5,6 @@ import TextInput from '../../FormInputs/TextInput';
 import { UserAccounts } from '../../services/AccountContext';
 import API from '../../utils/API';
 import { getToken } from '../../utils/Auth';
-import useAccountContext from '../../services/AccountContext';
 
 interface QuickTransType {
     account: number | undefined;

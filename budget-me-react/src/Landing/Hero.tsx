@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
             </div>
             
             <div className='hero-image px-2 md:pr-2'>
-                <img src={undraw_investment} />
+                <img src={undraw_investment} alt='person sitting next to various charts' />
             </div>
         </div>
     </div>

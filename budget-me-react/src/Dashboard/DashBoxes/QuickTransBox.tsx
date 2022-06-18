@@ -53,14 +53,15 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
     }
 
     const reducer = (state: QuickTransType, action: ReducerAction) => {
-        if(action.type) {
-            console.log(action.payload);
+        if(action.type && action.type !== 'reset') {
             const newState = {
                 ...state,
                 [action.type]: action.type === 'category' ? JSON.parse(action.payload) : action.payload,
             }
-            console.log(newState.category);
             return newState;
+        } else if(action.type === 'reset') {
+            const newState = initState;
+            return newState
         } else {
             return state;
         }
@@ -110,13 +111,14 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
             .then((res: any) => {
                 console.log(res);
                 fillAccounts();
+                dispatch({type: 'reset', payload: ''})
             });
     }
 
   return (
-    <section className='w-full h-full'>
-        <h3 className='text-2xl'>Quick Transaction</h3>
-        <div className='shadow-sm mt-2 border p-2 h-full'>
+    <section className='w-full h-full flex flex-col justify-between'>
+        <h3 className='text-xl'>Quick Transaction</h3>
+        <div className='shadow mt-2 border p-3 bg-white'>
             <form onSubmit={submit}>
                 <div className='flex justify-between gap-6'>
                     <div className='w-3/4'>
@@ -129,6 +131,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
                             }}
                             value={formState.account}
                             required
+                            className='text-xs'
                         />
                     </div>
                     <div className='w-1/4'>
@@ -141,6 +144,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
                             }}
                             value={formState.type}
                             required
+                            className='text-xs'
                         />
                     </div>
                     
@@ -155,6 +159,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
                         value={formState.amount}
                         type='number'
                         required
+                        className='text-xs'
                     />
                     <FormSelect
                         name='category'
@@ -166,6 +171,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
                         }}
                         value={formState.category?.category}
                         required
+                        className='text-xs'
                     />
                 </div>
                 <div>
@@ -177,6 +183,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
                         }}
                         value={formState.description}
                         required
+                        className='text-xs'
                     />
                 </div>
                 <div>

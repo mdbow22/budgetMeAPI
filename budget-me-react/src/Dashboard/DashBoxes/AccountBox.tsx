@@ -16,9 +16,9 @@ const AccountBox: React.FC<{userAccounts: UserAccounts[]}> = ({userAccounts}) =>
     }, [userAccounts])
 
   return (
-    <section className='w-full h-full'>
-            <h3 className='text-2xl'>Account Summary</h3>
-            <div className='shadow-sm mt-2 border p-2 h-full flex flex-col justify-between'>
+    <section className='w-full flex flex-col justify-between'>
+            <h3 className='text-xl'>Account Summary</h3>
+            <div className='shadow mt-2 border p-2 flex flex-col justify-between bg-white h-full'>
                 <table className='w-full text-left'>
                     <thead className='border-b-2'>
                         <tr>
@@ -45,10 +45,18 @@ const AccountBox: React.FC<{userAccounts: UserAccounts[]}> = ({userAccounts}) =>
                                 )
                             })
                         }
+                        {!userAccounts?.length &&
+                            <tr>
+                                <td colSpan={3} className='text-center'>
+                                    <p className='pt-4 text-md'>You have no accounts yet</p>
+                                    <p className='text-md text-purple-600'>Add one &#8594;</p>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
                 <div className='pt-2 border-t-2'>
-                    <span className='font-bold'>Net Worth: </span>{total}
+                    <span className='font-bold'>Net Worth: </span>{total ?? 0}
                 </div>
             </div>
         </section>

@@ -12,16 +12,17 @@ const FormSelect: React.FC<{
   onChange: (value: any) => void;
   value: any;
   required?: boolean;
-}> = ({ name, labelText, options, onChange, value, required }) => {
+  className?: string;
+}> = ({ name, labelText, options, onChange, value, required, className }) => {
   return (
     <div className='flex flex-col mb-3 w-full'>
-      <label className='mb-2 font-semibold' htmlFor={name}>
+      <label className='mb-2 font-semibold text-sm' htmlFor={name}>
         {labelText}
       </label>
       <select
         name={name}
         id={name}
-        className='border py-1 px-2 shadow'
+        className={`border py-1 px-2 shadow ${className}`}
         onChange={onChange}
         required={required}
       >

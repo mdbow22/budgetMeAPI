@@ -12,6 +12,7 @@ interface QuickTransType {
     amount: number | string;
     category: any;
     description: string;
+    thirdParty: string;
     date?: string;
 }
 
@@ -49,6 +50,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
         amount: '',
         category: undefined,
         description: '',
+        thirdParty: '',
     }
 
     const reducer = (state: QuickTransType, action: ReducerAction) => {
@@ -102,6 +104,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
                 category_id: formState.category.id,
                 description: formState.description,
                 amount: formState.type === 'debit' ? transAmount * -1 : transAmount,
+                thirdParty: formState.thirdParty,
                 date: new Date(),
             }
         }
@@ -173,7 +176,7 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
                         className='text-xs'
                     />
                 </div>
-                <div>
+                <div className='flex justify-between gap-6'>
                     <TextInput
                         name='description'
                         labelText='Description'
@@ -181,6 +184,16 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
                             dispatch({type: 'description', payload: e.target.value})
                         }}
                         value={formState.description}
+                        required
+                        className='text-xs'
+                    />
+                    <TextInput
+                        name='thirdParty'
+                        labelText='Payer/Payee'
+                        onChange={(e) => {
+                            dispatch({type: 'thirdParty', payload: e.target.value})
+                        }}
+                        value={formState.thirdParty}
                         required
                         className='text-xs'
                     />

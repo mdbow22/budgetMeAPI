@@ -6,7 +6,8 @@ const getAllTransactions = async (user) => {
             model: Account,
             where: {
                 user_id: user.id,
-            }
+            },
+            attributes: ['name', 'id']
         }
     });
 
@@ -24,6 +25,7 @@ const postTransaction = async (account, transaction) => {
         description: transaction.description,
         amount: transaction.amount,
         date: transaction.date,
+        third_party: transaction.thirdParty,
         account_id: account,
     });
 

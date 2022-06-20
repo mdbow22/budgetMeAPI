@@ -51,3 +51,7 @@ h1, h2, h3, h4, h5 {
   transform: translateX(0rem);
   transition: all 250ms ease-in-out;
 }
+
+.trans-table__header {
+  min-height: 5rem;
+}

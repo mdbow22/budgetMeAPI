@@ -20,6 +20,9 @@ const Transaction = sequelize.define('Transactions', {
     date: {
         type: DataTypes.DATE,
     },
+    third_party: {
+        type: DataTypes.STRING,
+    },
     account_id: {
         type: DataTypes.INTEGER,
         references: {

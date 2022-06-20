@@ -12,8 +12,6 @@ const fastify = require('fastify')({
     });
 const sequelize = require('./config/connection');
 
-const { Category } = require('./models');
-
 const PORT = process.env.PORT || 3001;
 
 if(process.env.NODE_ENV === 'production') {
@@ -40,6 +38,6 @@ const start = async () => {
     }
 };
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
     start();
 })

@@ -24,7 +24,7 @@ const API = {
 
         throw data;
     },
-    get: async function(path: string, token: string) {
+    get: async function(path: string, token?: string) {
         const response = await fetch(`/api${path}`, {
             headers: {
                 'Content-Type': 'application/json',

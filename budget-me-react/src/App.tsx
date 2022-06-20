@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import Accounts from './Accounts/Accounts';
 import Login from './Authentication/Login';
 import Dashboard from './Dashboard/Dashboard';
 import './index.css';
@@ -18,7 +19,7 @@ const App: React.FC = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/user/:id' element={<UserRouter />}>
           <Route path='dashboard' element={<Dashboard />} />
-          <Route path='accounts' />
+          <Route path='accounts' element={<Accounts />} />
           <Route path='budgets' />
           <Route path='goals' />
         </Route>

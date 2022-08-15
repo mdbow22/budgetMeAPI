@@ -1,19 +1,17 @@
-import React, { FormEvent, useEffect, useReducer, useState } from 'react'
-import FormSelect from '../../FormInputs/FormSelect';
-import SubmitBtn from '../../FormInputs/SubmitBtn';
-import TextInput from '../../FormInputs/TextInput';
-import { UserAccounts } from '../../services/AccountContext';
-import API from '../../utils/API';
-import { getToken } from '../../utils/Auth';
+import React, { SetStateAction, useEffect, useReducer, useState } from 'react'
+import Modal from '../core/Modal/Modal';
+import ModalBod from '../core/Modal/ModalBod';
+import ModalHead from '../core/Modal/ModalHead';
+import { QuickTransType } from '../Dashboard/DashBoxes/QuickTransBox';
+import FormSelect from '../FormInputs/FormSelect';
+import SubmitBtn from '../FormInputs/SubmitBtn';
+import TextInput from '../FormInputs/TextInput';
+import { useAccountContext } from '../services/AccountContext';
+import API from '../utils/API';
+import { getToken } from '../utils/Auth';
 
-export interface QuickTransType {
-    account: number | undefined;
-    type: string;
-    amount: number | string;
-    category: any;
-    description: string;
-    thirdParty: string;
-    date?: string;
+interface Transaction extends QuickTransType {
+    Date: string | Date | null;
 }
 
 interface ReducerAction {
@@ -21,12 +19,24 @@ interface ReducerAction {
     payload: string;
 }
 
-const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () => Promise<any> }> = ({ userAccounts, fillAccounts }) => {
+const NewTransactionModal: React.FC<{show: boolean, setShow: React.Dispatch<SetStateAction<boolean>>}> = ({show, setShow}) => {
+
+    const { userAccounts } = useAccountContext();
 
     const [categories, setCategories] = useState<any>();
     const [filteredCats, setFilteredCats] = useState<any>();
 
     const options = [{value: '', label: ''}, ...userAccounts.map(account => ({value: account.id, label: account.name}))];
+
+    const initState: Transaction = {
+        account: undefined,
+        type: '',
+        amount: '',
+        category: undefined,
+        description: '',
+        thirdParty: '',
+        Date: '',
+    }
 
     useEffect(() => {
         const token = getToken();
@@ -43,15 +53,6 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
         }
         
     }, [setCategories])
-
-    const initState: QuickTransType = {
-        account: undefined,
-        type: '',
-        amount: '',
-        category: undefined,
-        description: '',
-        thirdParty: '',
-    }
 
     const reducer = (state: QuickTransType, action: ReducerAction) => {
         if(action.type && action.type !== 'reset') {
@@ -92,35 +93,16 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
         }
     }, [categories, setFilteredCats, formState.type])
 
-    const submit = (e: FormEvent) => {
-        e.preventDefault();
+    const submit = () => {
 
-        let transAmount = Number(formState.amount);
-
-        const body = {
-            account: formState.account,
-            transaction: {
-                category: formState.category.category,
-                category_id: formState.category.id,
-                description: formState.description,
-                amount: formState.type === 'debit' ? transAmount * -1 : transAmount,
-                thirdParty: formState.thirdParty,
-                date: new Date(),
-            }
-        }
-
-        API.post('/transaction/newTransaction', body, true)
-            .then((res: any) => {
-                console.log(res);
-                fillAccounts();
-                dispatch({type: 'reset', payload: ''})
-            });
     }
-
+    
   return (
-    <section className='w-full h-full flex flex-col justify-between'>
-        <h3 className='text-xl'>Quick Transaction</h3>
-        <div className='shadow mt-2 border p-3 bg-white'>
+    <Modal show={show} setShow={setShow}>
+            <ModalHead onClick={() => setShow(false)}>
+                New Transaction
+            </ModalHead>
+            <ModalBod>
             <form onSubmit={submit}>
                 <div className='flex justify-between gap-6'>
                     <div className='w-3/4'>
@@ -202,9 +184,9 @@ const QuickTransBox: React.FC<{ userAccounts: UserAccounts[], fillAccounts: () =
                     <SubmitBtn />
                 </div>
             </form>
-        </div>
-    </section>
+            </ModalBod>
+        </Modal>
   )
 }
 
-export default QuickTransBox;
+export default NewTransactionModal;

@@ -42,7 +42,7 @@ h1, h2, h3, h4, h5 {
 .sidebar {
   height: 100%;
   transform: translateX(-7.75rem);
-  z-index: 999;
+  z-index: 950;
   transition: all 250ms ease-in-out;
 }
 
@@ -54,4 +54,18 @@ h1, h2, h3, h4, h5 {
 
 .trans-table__header {
   min-height: 5rem;
+}
+
+.modal {
+  transform: translateY(-50px);
+  opacity: 0;
+  transition: all 100ms linear;
+  pointer-events: none;
+}
+
+.modal-active {
+  transform: translateY(0);
+  pointer-events: all;
+  opacity: 1;
+  transition: all 100ms linear;
 }

@@ -39,7 +39,7 @@ const TransactionTable: React.FC<TransTableProps> = ({ transactions }) => {
             <tbody>
                 {transactions?.map(transaction => {
                     return (
-                        <tr key={transaction.id} className='text-sm   even:bg-gray-200'>
+                        <tr key={transaction.id} className='text-sm   even:bg-gray-100 hover:bg-purple-100 last:border-b last:border-gray-200'>
                             <td className='px-2 py-1 '>{DateTime.fromISO(transaction.date).toFormat('MM/dd')}</td>
                             <td className='px-2 py-1 '>{transaction.description}</td>
                             <td className='px-2 py-1 hidden md:table-cell'>{transaction.third_party}</td>
@@ -49,7 +49,7 @@ const TransactionTable: React.FC<TransTableProps> = ({ transactions }) => {
                                 <div>
                                     $
                                 </div>
-                                <div>
+                                <div className='tabular-nums'>
                                     {transaction.amount}
                                 </div>
                             </td>

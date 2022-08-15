@@ -24,7 +24,7 @@ const SideNav: React.FC = () => {
   return (
         <div className={`absolute top-0 bg-green-700 max-w-xs text-white z-50 ${showMenu ? 'sidebar-open' : 'sidebar'}`}>
             <ul className='flex flex-col gap-2 items-center'>
-                    <li className='bg-slate-50 border-r border-green-700 bg-gradient-to-t from-green-100 text-green-700 w-full flex items-center justify-between p-2 py-2 relative z-50'>
+                    <li className='bg-slate-50 border-r border-green-700 bg-gradient-to-b from-green-50 text-green-700 w-full h-16 flex items-center justify-between p-2 py-2 relative z-50'>
                         <h1 className='text-2xl font-bold pr-2'>BudgetMe</h1>
                         <button type='button' className='relative z-50' onClick={() => setShowMenu(prev => !prev)}>
                             <Toggle showMenu={showMenu} />
